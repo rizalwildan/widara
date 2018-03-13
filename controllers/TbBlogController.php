@@ -97,6 +97,8 @@ class TbBlogController extends Controller
     {
         $model = $this->findModel($id);
 
+        $gambar_old = $model->gambar_blog;
+
         if ($model->load(Yii::$app->request->post())) {
 
             $image = UploadedFile::getInstance($model, 'gambar_blog');
@@ -104,6 +106,10 @@ class TbBlogController extends Controller
             if(!empty($image)){
             $model->gambar_blog = $image->baseName.'.'.$image->extension;
             $image->saveAs('uploads/'.$model->gambar_blog);
+            }
+
+            else{
+                $model->gambar_blog = $gambar_old;
             }
 
             if($model->save()){
